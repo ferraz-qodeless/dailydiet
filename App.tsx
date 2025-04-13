@@ -3,7 +3,7 @@ import { ActivityIndicator } from 'react-native';
 import { ThemeProvider } from 'styled-components/native';
 
 import { Home } from '@screens/Home';
-import theme from './src/theme';
+import { theme } from "@theme/index";
 
 export default function App() {
   const [fontsLoaded] = useFonts({ 
