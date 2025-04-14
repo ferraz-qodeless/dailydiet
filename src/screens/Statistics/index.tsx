@@ -23,7 +23,7 @@ export function Statistics() {
 
   return (
     <View style={[styles.container, { backgroundColor }]}>
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }} edges={['top']}>
 
 
         <View style={[styles.result, { paddingTop: 40 }]}>
