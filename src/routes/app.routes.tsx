@@ -1,7 +1,10 @@
 // src/routes/index.tsx
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { MealDetails } from '@screens/MealDetails'
-import { Home } from '../screens/Home'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Home } from '@screens/Home';
+import { MealDetails } from '@screens/MealDetails';
+import { Statistics } from '@screens/Statistics';
+
+
 
 const { Navigator, Screen } = createNativeStackNavigator()
 
@@ -10,6 +13,7 @@ export function AppRoutes() {
     <Navigator screenOptions={{ headerShown: false }}>
       <Screen name="home" component={Home} />
       <Screen name="mealDetails" component={MealDetails} />
+      <Screen name="statistics" component={Statistics} />
     </Navigator>
   )
 }

@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 
 import { Button } from '@components/Button';
 import { Header } from '@components/Header';
@@ -10,19 +10,26 @@ import { ArrowUpRight } from 'phosphor-react-native';
 import { theme } from '@theme/index';
 import { styles } from './styles';
 
+import { useNavigation } from '@react-navigation/native';
+
 
 
 export function Home() {
+  const navigation = useNavigation();
+
+  function handleStatisticsNavigation() {
+    navigation.navigate('statistics', { percentage: 49});
+  }
   return (
     <View style={styles.container}>
       <Header />
-      <View style={styles.dietResult}>
+      <TouchableOpacity style={styles.dietResult} onPress={handleStatisticsNavigation}>
         <View style={styles.dietResultIconWrapper}>
           <ArrowUpRight size={24} weight="bold" color={theme.COLORS.GREEN_DARK} />
         </View>
         <Text style={styles.dietResultPercent}>90,86%</Text>
         <Text style={styles.dietResultText}>das refeições dentro da dieta</Text>
-      </View>
+      </TouchableOpacity>
 
       <View style={styles.meals}>
         <Text style={styles.mealTitle}>Refeições</Text>
