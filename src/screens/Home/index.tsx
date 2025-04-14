@@ -12,17 +12,16 @@ import { styles } from './styles';
 
 import { useNavigation } from '@react-navigation/native';
 
-
-
 export function Home() {
   const navigation = useNavigation();
 
   function handleStatisticsNavigation() {
-    navigation.navigate('statistics', { percentage: 49});
+    navigation.navigate('statistics', { percentage: 90.86});
   }
   return (
     <View style={styles.container}>
       <Header />
+
       <TouchableOpacity style={styles.dietResult} onPress={handleStatisticsNavigation}>
         <View style={styles.dietResultIconWrapper}>
           <ArrowUpRight size={24} weight="bold" color={theme.COLORS.GREEN_DARK} />
@@ -35,9 +34,8 @@ export function Home() {
         <Text style={styles.mealTitle}>Refeições</Text>
         <Button title="Nova refeição" onPress={() => navigation.navigate('mealForm')} />
       </View>
-
+      
       <MealSectionList sections={meals} />
-
       <StatusBar style="auto" />
     </View>
   );

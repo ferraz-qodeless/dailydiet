@@ -5,9 +5,6 @@ import { MealDetails } from '@screens/MealDetails';
 import { MealForm } from '@screens/MealForm';
 import { Statistics } from '@screens/Statistics';
 
-
-
-
 const { Navigator, Screen } = createNativeStackNavigator()
 
 export function AppRoutes() {

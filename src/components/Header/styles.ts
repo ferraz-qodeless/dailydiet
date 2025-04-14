@@ -1,4 +1,3 @@
-
 import { theme } from '@theme/index';
 import { SafeAreaView } from "react-native";
 import styled from "styled-components/native";

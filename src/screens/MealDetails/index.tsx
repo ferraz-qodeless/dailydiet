@@ -21,7 +21,7 @@ export function MealDetails() {
   const navigation = useNavigation()
   const { meal } = route.params as RouteParams
 
-  const backgroundColor = meal.isInsideDiet ? '#E5F0DB' : '#F4E6E7' 
+  const backgroundColor = meal.isInsideDiet ? '#E5F0DB' : '#F4E6E7'
   const iconColor = meal.isInsideDiet ? '#639339' : '#BF3B44'
 
   return (
@@ -33,7 +33,7 @@ export function MealDetails() {
         <Text style={styles.headerTitle}>Refeição</Text>
         <View style={{ width: 24 }} />
       </View>
-  
+
       <View style={styles.main}>
         <ScrollView
           style={{ flex: 1 }}
@@ -42,32 +42,22 @@ export function MealDetails() {
         >
           <Text style={styles.title}>{meal.name}</Text>
           <Text style={styles.description}>{meal.description}</Text>
-  
+
           <Text style={styles.label}>Data e hora</Text>
           <Text style={styles.datetime}>
             {meal.date} às {meal.hour}
           </Text>
-  
-          <View
-            style={[
-              styles.dietStatusContainer,
-            ]}
-          >
-            <View
-              style={[
-                styles.statusIndicator,
-                { backgroundColor: iconColor },
-              ]}
-            />
-            <Text style={[styles.dietStatusText, { color: "#333638" }]}>
+
+          <View style={styles.dietStatusContainer}>
+            <View style={[styles.statusIndicator, { backgroundColor: iconColor }]} />
+            <Text style={[styles.dietStatusText, { color: '#333638' }]}>
               {meal.isInsideDiet ? 'dentro da dieta' : 'fora da dieta'}
             </Text>
           </View>
-  
+
           <View style={styles.spacer} />
         </ScrollView>
-  
-        {/* Botões fixos no final */}
+
         <View style={styles.footer}>
           <Button title="Editar refeição" icon="edit" onPress={() => {}} />
           <Button title="Excluir refeição" icon="delete" variant="outline" onPress={() => {}} />
@@ -75,5 +65,4 @@ export function MealDetails() {
       </View>
     </View>
   )
-  
 }
