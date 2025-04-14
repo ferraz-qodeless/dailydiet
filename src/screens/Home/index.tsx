@@ -33,7 +33,7 @@ export function Home() {
 
       <View style={styles.meals}>
         <Text style={styles.mealTitle}>Refeições</Text>
-        <Button title="Nova refeição" />
+        <Button title="Nova refeição" onPress={() => navigation.navigate('mealForm')} />
       </View>
 
       <MealSectionList sections={meals} />
