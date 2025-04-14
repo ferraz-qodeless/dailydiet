@@ -13,7 +13,7 @@ export function Header({ showBackButton = true }: HeaderProps) {
         </BackButton>
       )}
 
-      <Avatar source={{ uri: 'https://github.com/leidianeferraz.png' }} />
+      <Avatar source={{ uri: 'https://gitlab.com/uploads/-/system/user/avatar/26843990/avatar.png?width=800' }} />
     </Container>
   );
 }
