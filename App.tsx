@@ -2,7 +2,7 @@ import { NunitoSans_400Regular, NunitoSans_700Bold, useFonts } from '@expo-googl
 import { ActivityIndicator } from 'react-native';
 import { ThemeProvider } from 'styled-components/native';
 
-import { Home } from '@screens/Home';
+import { Routes } from '@routes/index';
 import { theme } from "@theme/index";
 
 export default function App() {
@@ -13,7 +13,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      { fontsLoaded ? <Home /> : <ActivityIndicator /> }
+      { fontsLoaded ? <Routes /> : <ActivityIndicator /> }
     </ThemeProvider>
   );
 }
