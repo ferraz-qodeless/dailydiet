@@ -1,18 +1,38 @@
-import { theme } from '@theme/index';
-import { Plus } from 'phosphor-react-native';
-import { Text, TouchableOpacity } from 'react-native';
+import { PencilSimpleLine, Trash } from 'phosphor-react-native';
+import { Text, TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import { styles } from './styles';
 
-type ButtonProps = {
-  title: string;
-  onPress?: () => void;
-};
+type Variant = 'solid' | 'outline'
 
-export function Button({ title, onPress }: ButtonProps) {
+type Props = TouchableOpacityProps & {
+  title: string
+  variant?: Variant
+  icon?: 'edit' | 'delete'
+}
+
+export function Button({ title, variant = 'solid', icon, ...rest }: Props) {
+  const IconComponent = icon === 'edit'
+    ? PencilSimpleLine
+    : icon === 'delete'
+    ? Trash
+    : null
+
   return (
-    <TouchableOpacity style={styles.container} activeOpacity={0.7} onPress={onPress}>
-      <Plus size={18} color={theme.COLORS.WHITE} weight="bold" style={{ marginRight: 8 }} />
-      <Text style={styles.title}>{title}</Text>
+    <TouchableOpacity
+      style={[styles.container, variant === 'outline' && styles.outlineContainer]}
+      {...rest}
+    >
+      {IconComponent && (
+        <IconComponent
+          size={18}
+          weight="regular"
+          color={variant === 'outline' ? '#1C1C1C' : '#FFFFFF'}
+          style={styles.icon}
+        />
+      )}
+      <Text style={[styles.title, variant === 'outline' && styles.outlineTitle]}>
+        {title}
+      </Text>
     </TouchableOpacity>
-  );
+  )
 }
