@@ -1,6 +1,6 @@
-// src/components/MealSectionList.tsx
-import { Meal, MealCard } from '@components/MealCard'
+import { MealCard } from '@components/MealCard'
 import { SectionList, Text } from 'react-native'
+import { Meal } from 'src/@types/meal'
 import { styles } from './styles'
 
 type Section = {

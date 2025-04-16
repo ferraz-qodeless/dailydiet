@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 
 import { Button } from '@components/Button';
 import { Header } from '@components/Header';
@@ -21,6 +21,7 @@ import { MealSection } from '../../@types/sections';
 export function Home() {
   const [sections, setSections] = useState<MealSection[]>([]);
   const [percentage, setPercentage] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation();
 
@@ -29,6 +30,7 @@ export function Home() {
   }
 
   async function fetchMeals() {
+    setLoading(true);
     try {
       const storedMeals = await mealGetAll();
       console.log('Refeições salvas:', storedMeals);
@@ -36,6 +38,8 @@ export function Home() {
       setSections(grouped);
     } catch (error) {
       console.log('Erro ao carregar refeições:', error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -79,7 +83,14 @@ export function Home() {
         <Button title="Nova refeição" onPress={() => navigation.navigate('mealForm', { meal: undefined })} />
       </View>
 
-      <MealSectionList sections={sections} />
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={theme.COLORS.GREEN_DARK} />
+        </View>
+      ) : (
+        <MealSectionList sections={sections} />
+      )}
+
       <StatusBar style="auto" />
     </View>
   );
