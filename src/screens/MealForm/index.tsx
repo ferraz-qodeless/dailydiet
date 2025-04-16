@@ -1,6 +1,7 @@
 import { Button } from '@components/Button';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { mealCreate } from '@storage/meal/meal-create';
+import { mealUpdate } from '@storage/meal/meal-update';
 import { ArrowLeft, Circle } from 'phosphor-react-native';
 import { useState } from 'react';
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -25,23 +26,24 @@ export function MealForm() {
   const [isInsideDiet, setIsInsideDiet] = useState<boolean | null>(meal?.isInsideDiet ?? null);
 
   function handleSubmit() {
-    const newMeal: Meal = {
-      id: String(Date.now()),
+    const updatedMeal: Meal = {
+      id: meal?.id || String(Date.now()),
       title: name,
       description,
       date,
       hour,
       isInsideDiet: isInsideDiet === null ? false : isInsideDiet,
     };
-  
+
     if (isEditMode) {
+      mealUpdate(updatedMeal);
       navigation.navigate('home');
     } else {
-      mealCreate(newMeal);
-      navigation.navigate('registeredMeal', { meal: newMeal });
+      mealCreate(updatedMeal);
+      navigation.navigate('registeredMeal', { meal: updatedMeal });
     }
   }
-  
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>

@@ -1,5 +1,6 @@
 import { Button } from '@components/Button'
 import { useNavigation, useRoute } from '@react-navigation/native'
+import { mealDelete } from '@storage/meal/meal-delete'
 import { ArrowLeft } from 'phosphor-react-native'
 import { useState } from 'react'
 import {
@@ -14,12 +15,13 @@ import { styles } from './styles'
 
 type RouteParams = {
   meal: {
-    name: string
-    description: string
-    date: string
-    hour: string
-    isInsideDiet: boolean
-  }
+    id: string;
+    title: string;
+    description: string;
+    date: string;
+    hour: string;
+    isInsideDiet: boolean;
+  };
 }
 
 export function MealDetails() {
@@ -27,14 +29,28 @@ export function MealDetails() {
   const route = useRoute()
   const navigation = useNavigation()
   const { meal } = route.params as RouteParams
+
+  console.log('meal recebido em MealDetails:', meal);
+
   const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   const backgroundColor = meal.isInsideDiet ? '#E5F0DB' : '#F4E6E7'
   const iconColor = meal.isInsideDiet ? '#639339' : '#BF3B44'
 
   function handleConfirmDelete() {
-    setShowDeleteModal(false)
-    navigation.navigate('home')
+    if (meal?.id) {
+      console.log('Confirmando exclusão da refeição com ID:', meal.id);
+      mealDelete(meal.id)
+        .then(() => {
+          setShowDeleteModal(false);
+          navigation.navigate('home');
+        })
+        .catch(error => {
+          console.error('Erro ao excluir refeição:', error);
+        });
+    } else {
+      console.log('ID da refeição não encontrado:', meal?.id);
+    }
   }
 
   return (
@@ -53,7 +69,7 @@ export function MealDetails() {
           contentContainerStyle={{ paddingBottom: 24, flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
         >
-          <Text style={styles.title}>{meal.name}</Text>
+          <Text style={styles.title}>{meal.title}</Text>
           <Text style={styles.description}>{meal.description}</Text>
 
           <Text style={styles.label}>Data e hora</Text>
@@ -97,10 +113,17 @@ export function MealDetails() {
             <Text style={styles.modalTitle}>Deseja realmente excluir o registro da refeição?</Text>
             <View style={styles.modalActions}>
               <View style={{ flex: 1 }}>
-                <Button title="Cancelar" variant="outline" onPress={() => setShowDeleteModal(false)} />
+                <Button
+                  title="Cancelar"
+                  variant="outline"
+                  onPress={() => setShowDeleteModal(false)}
+                />
               </View>
               <View style={{ flex: 1 }}>
-                <Button title="Sim, excluir" onPress={handleConfirmDelete} />
+                <Button
+                  title="Sim, excluir"
+                  onPress={handleConfirmDelete}
+                />
               </View>
             </View>
           </View>

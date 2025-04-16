@@ -1,13 +1,8 @@
 import { useNavigation } from '@react-navigation/native'
 import { theme } from '@theme/index'
 import { Text, TouchableOpacity, TouchableOpacityProps, View } from 'react-native'
+import { Meal } from 'src/@types/meal'
 import { styles } from './styles'
-
-export type Meal = {
-  hour: string
-  title: string
-  isInsideDiet: boolean
-}
 
 type Props = TouchableOpacityProps & {
   meal: Meal
@@ -18,13 +13,7 @@ export function MealCard({ meal, ...rest }: Props) {
 
   function handleOpenDetails() {
     navigation.navigate('mealDetails', {
-      meal: {
-        name: meal.title,
-        description: 'Descrição temporária...',
-        date: '12/08/2022',
-        hour: meal.hour,
-        isInsideDiet: meal.isInsideDiet,
-      },
+      meal,
     })
   }
 

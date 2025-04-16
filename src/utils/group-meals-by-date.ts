@@ -1,21 +1,26 @@
-import { Meal } from "src/@types/meal";
+import { Meal } from 'src/@types/meal';
+import { MealSectionListItem } from 'src/@types/sections';
 
-export function groupMealsByDate(meals: Meal[]) {
-  const grouped: Record<string, Meal[]> = {};
+export function groupMealsByDate(meals: Meal[]): { title: string; data: MealSectionListItem[] }[] {
+  const grouped: { title: string; data: MealSectionListItem[] }[] = [];
 
-  meals.forEach((meal) => {
-    if (!grouped[meal.date]) {
-      grouped[meal.date] = [];
+  meals.forEach(meal => {
+    const formattedMeal: MealSectionListItem = {
+      id: meal.id!,
+      hour: meal.hour,
+      title: meal.title,
+      isInsideDiet: meal.isInsideDiet,
+      description: meal.description!,
+      date: meal.date!,
+    };
+
+    const existingGroup = grouped.find(group => group.title === meal.date);
+    if (existingGroup) {
+      existingGroup.data.push(formattedMeal);
+    } else {
+      grouped.push({ title: meal.date, data: [formattedMeal] });
     }
-    grouped[meal.date].push(meal);
   });
 
-  const sections = Object.keys(grouped)
-    .sort((a, b) => new Date(b).getTime() - new Date(a).getTime())
-    .map(date => ({
-      title: date,
-      data: grouped[date].sort((a, b) => a.hour.localeCompare(b.hour))
-    }));
-
-  return sections;
+  return grouped;
 }

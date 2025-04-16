@@ -1,4 +1,3 @@
-// src/components/mealCardStyles.ts
 import { theme } from '@theme/index';
 import { StyleSheet } from 'react-native';
 

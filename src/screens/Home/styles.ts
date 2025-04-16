@@ -45,4 +45,9 @@ export const styles = StyleSheet.create({
     fontFamily: theme.FONT_FAMILY.REGULAR,
     color: theme.COLORS.GRAY_700,
   },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

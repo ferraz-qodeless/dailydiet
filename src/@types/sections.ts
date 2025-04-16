@@ -1,14 +1,13 @@
 export type MealSectionListItem = {
-  hour: string
-  title: string
-  isInsideDiet: boolean
+  id: string;
+  hour: string;
+  title: string;
+  isInsideDiet: boolean;
+  description: string;
+  date: string;
 }
 
 export type MealSection = {
-  title: string
-  data: {
-    hour: string
-    title: string
-    isInsideDiet: boolean
-  }[]
+  title: string;
+  data: MealSectionListItem[];
 }
