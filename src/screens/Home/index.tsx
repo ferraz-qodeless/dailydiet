@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
 import { Button } from '@components/Button';
@@ -10,23 +11,66 @@ import { ArrowUpRight } from 'phosphor-react-native';
 import { theme } from '@theme/index';
 import { styles } from './styles';
 
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+
+import { mealGetAll } from '@storage/meal/meal-get-all';
+import { getMealStatistics } from '@storage/meal/meal-statistics';
+import { groupMealsByDate } from '@utils/group-meals-by-date';
+import { MealSection } from '../../@types/sections';
 
 export function Home() {
+  const [sections, setSections] = useState<MealSection[]>([]);
+  const [percentage, setPercentage] = useState(0);
+
   const navigation = useNavigation();
 
   function handleStatisticsNavigation() {
-    navigation.navigate('statistics', { percentage: 90.86});
+    navigation.navigate('statistics');
   }
+
+  async function fetchMeals() {
+    try {
+      const storedMeals = await mealGetAll();
+      console.log('Refeições salvas:', storedMeals);
+      const grouped = groupMealsByDate(storedMeals);
+      setSections(grouped);
+    } catch (error) {
+      console.log('Erro ao carregar refeições:', error);
+    }
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      getMealStatistics().then(stats => {
+        setPercentage(stats.percentage);
+      });
+    }, [])
+  );
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', fetchMeals);
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <Header />
 
-      <TouchableOpacity style={styles.dietResult} onPress={handleStatisticsNavigation}>
+      <TouchableOpacity
+        style={[
+          styles.dietResult,
+          { backgroundColor: percentage >= 50 ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT },
+        ]}
+        onPress={handleStatisticsNavigation}
+      >
         <View style={styles.dietResultIconWrapper}>
-          <ArrowUpRight size={24} weight="bold" color={theme.COLORS.GREEN_DARK} />
+          <ArrowUpRight
+            size={24}
+            weight="bold"
+            color={percentage >= 50 ? theme.COLORS.GREEN_DARK: theme.COLORS.RED_DARK}
+          />
         </View>
-        <Text style={styles.dietResultPercent}>90,86%</Text>
+        <Text style={styles.dietResultPercent}>{percentage.toFixed(2)}%</Text>
         <Text style={styles.dietResultText}>das refeições dentro da dieta</Text>
       </TouchableOpacity>
 
@@ -34,28 +78,9 @@ export function Home() {
         <Text style={styles.mealTitle}>Refeições</Text>
         <Button title="Nova refeição" onPress={() => navigation.navigate('mealForm', { meal: undefined })} />
       </View>
-      
-      <MealSectionList sections={meals} />
+
+      <MealSectionList sections={sections} />
       <StatusBar style="auto" />
     </View>
   );
 }
-
-const meals = [
-  {
-    title: '12.08.22',
-    data: [
-      { hour: '20:00', title: 'X-tudo', isInsideDiet: false },
-      { hour: '16:00', title: 'Whey protein com leite', isInsideDiet: true },
-      { hour: '12:30', title: 'Salada cesar com frango grelhado', isInsideDiet: true },
-      { hour: '09:30', title: 'Vitamina de banana com aveia', isInsideDiet: true },
-    ],
-  },
-  {
-    title: '11.08.22',
-    data: [
-      { hour: '20:00', title: 'X-tudo', isInsideDiet: false },
-      { hour: '16:00', title: 'Whey protein com leite', isInsideDiet: true },
-    ],
-  },
-];
