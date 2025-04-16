@@ -29,9 +29,21 @@ export function MealForm() {
   const [isInsideDiet, setIsInsideDiet] = useState<boolean | null>(meal?.isInsideDiet ?? null);
 
   function handleSubmit() {
-    navigation.navigate('home');
+    const newMeal = {
+      name,
+      description,
+      date,
+      hour,
+      isInsideDiet: isInsideDiet === null ? false : isInsideDiet,
+    };
+  
+    if (isEditMode) {
+      navigation.navigate('home');
+    } else {
+      navigation.navigate('registeredMeal', { meal: newMeal });
+    }
   }
-
+  
   return (
     <View style={styles.container}>
       <View style={styles.header}>

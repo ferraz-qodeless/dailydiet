@@ -1,7 +1,14 @@
 import { Button } from '@components/Button'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { ArrowLeft } from 'phosphor-react-native'
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { useState } from 'react'
+import {
+  Modal,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { styles } from './styles'
 
@@ -20,9 +27,15 @@ export function MealDetails() {
   const route = useRoute()
   const navigation = useNavigation()
   const { meal } = route.params as RouteParams
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   const backgroundColor = meal.isInsideDiet ? '#E5F0DB' : '#F4E6E7'
   const iconColor = meal.isInsideDiet ? '#639339' : '#BF3B44'
+
+  function handleConfirmDelete() {
+    setShowDeleteModal(false)
+    navigation.navigate('home')
+  }
 
   return (
     <View style={[styles.container, { backgroundColor }]}>
@@ -59,10 +72,40 @@ export function MealDetails() {
         </ScrollView>
 
         <View style={styles.footer}>
-          <Button title="Editar refeição" icon="edit" onPress={() => {}} />
-          <Button title="Excluir refeição" icon="delete" variant="outline" onPress={() => {}} />
+          <Button
+            title="Editar refeição"
+            icon="edit"
+            onPress={() => navigation.navigate('mealForm', { meal })}
+          />
+          <Button
+            title="Excluir refeição"
+            icon="delete"
+            variant="outline"
+            onPress={() => setShowDeleteModal(true)}
+          />
         </View>
       </View>
+
+      <Modal
+        visible={showDeleteModal}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowDeleteModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Deseja realmente excluir o registro da refeição?</Text>
+            <View style={styles.modalActions}>
+              <View style={{ flex: 1 }}>
+                <Button title="Cancelar" variant="outline" onPress={() => setShowDeleteModal(false)} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Button title="Sim, excluir" onPress={handleConfirmDelete} />
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   )
 }

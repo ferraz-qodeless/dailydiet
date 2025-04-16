@@ -3,6 +3,15 @@ export declare global {
     interface RootParamList {
       home: undefined
       statistics: undefined
+      registeredMeal: {
+        meal?: {
+          name: string
+          description: string
+          date: string
+          hour: string
+          isInsideDiet: boolean
+        }
+      }
       mealForm: {
         meal?: {
           name: string
