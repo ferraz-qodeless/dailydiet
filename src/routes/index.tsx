@@ -1,4 +1,3 @@
-// src/routes/index.tsx
 import { NavigationContainer } from '@react-navigation/native'
 import { AppRoutes } from './app.routes'
 
