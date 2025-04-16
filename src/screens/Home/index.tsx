@@ -32,7 +32,7 @@ export function Home() {
 
       <View style={styles.meals}>
         <Text style={styles.mealTitle}>Refeições</Text>
-        <Button title="Nova refeição" onPress={() => navigation.navigate('mealForm')} />
+        <Button title="Nova refeição" onPress={() => navigation.navigate('mealForm', { meal: undefined })} />
       </View>
       
       <MealSectionList sections={meals} />
