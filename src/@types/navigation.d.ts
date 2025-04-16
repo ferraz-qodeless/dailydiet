@@ -1,35 +1,19 @@
+import { Meal } from 'src/@types/meal';
+
 export declare global {
   namespace ReactNavigation {
     interface RootParamList {
-      home: undefined
-      statistics: undefined
+      home: undefined;
+      statistics: undefined;
       registeredMeal: {
-        meal?: {
-          name: string
-          description: string
-          date: string
-          hour: string
-          isInsideDiet: boolean
-        }
-      }
+        meal?: Meal;
+      };
       mealForm: {
-        meal?: {
-          name: string
-          description: string
-          date: string
-          hour: string
-          isInsideDiet: boolean
-        }
-      }
+        meal?: Meal;
+      };
       mealDetails: {
-        meal: {
-          name: string
-          description: string
-          date: string
-          hour: string
-          isInsideDiet: boolean
-        }
-      }
+        meal: Meal;
+      };
     }
   }
 }

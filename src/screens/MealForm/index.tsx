@@ -1,18 +1,14 @@
 import { Button } from '@components/Button';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { mealCreate } from '@storage/meal/meal-create';
 import { ArrowLeft, Circle } from 'phosphor-react-native';
 import { useState } from 'react';
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Meal } from 'src/@types/meal';
 import { styles } from './styles';
 
 type RouteParams = {
-  meal?: {
-    name: string;
-    description: string;
-    date: string;
-    hour: string;
-    isInsideDiet: boolean;
-  };
+  meal?: Meal;
 };
 
 export function MealForm() {
@@ -22,15 +18,16 @@ export function MealForm() {
 
   const isEditMode = !!meal;
 
-  const [name, setName] = useState(meal?.name || '');
+  const [name, setName] = useState(meal?.title || '');
   const [description, setDescription] = useState(meal?.description || '');
   const [date, setDate] = useState(meal?.date || '');
   const [hour, setHour] = useState(meal?.hour || '');
   const [isInsideDiet, setIsInsideDiet] = useState<boolean | null>(meal?.isInsideDiet ?? null);
 
   function handleSubmit() {
-    const newMeal = {
-      name,
+    const newMeal: Meal = {
+      id: String(Date.now()),
+      title: name,
       description,
       date,
       hour,
@@ -40,6 +37,7 @@ export function MealForm() {
     if (isEditMode) {
       navigation.navigate('home');
     } else {
+      mealCreate(newMeal);
       navigation.navigate('registeredMeal', { meal: newMeal });
     }
   }
