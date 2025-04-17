@@ -25,7 +25,7 @@ export function MealForm() {
   const [hour, setHour] = useState(meal?.hour || '');
   const [isInsideDiet, setIsInsideDiet] = useState<boolean | null>(meal?.isInsideDiet ?? null);
 
-  function handleSubmit() {
+  async function handleSubmit() {
     const updatedMeal: Meal = {
       id: meal?.id || String(Date.now()),
       title: name,
@@ -36,10 +36,10 @@ export function MealForm() {
     };
 
     if (isEditMode) {
-      mealUpdate(updatedMeal);
+      await mealUpdate(updatedMeal);
       navigation.navigate('home');
     } else {
-      mealCreate(updatedMeal);
+      await mealCreate(updatedMeal);
       navigation.navigate('registeredMeal', { meal: updatedMeal });
     }
   }
