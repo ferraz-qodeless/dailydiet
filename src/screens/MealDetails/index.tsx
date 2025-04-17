@@ -30,8 +30,6 @@ export function MealDetails() {
   const navigation = useNavigation()
   const { meal } = route.params as RouteParams
 
-  console.log('meal recebido em MealDetails:', meal);
-
   const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   const backgroundColor = meal.isInsideDiet ? '#E5F0DB' : '#F4E6E7'
@@ -39,17 +37,14 @@ export function MealDetails() {
 
   function handleConfirmDelete() {
     if (meal?.id) {
-      console.log('Confirmando exclusão da refeição com ID:', meal.id);
       mealDelete(meal.id)
         .then(() => {
           setShowDeleteModal(false);
           navigation.navigate('home');
         })
         .catch(error => {
-          console.error('Erro ao excluir refeição:', error);
         });
     } else {
-      console.log('ID da refeição não encontrado:', meal?.id);
     }
   }
 

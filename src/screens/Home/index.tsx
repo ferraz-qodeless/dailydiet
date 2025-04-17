@@ -33,11 +33,9 @@ export function Home() {
     setLoading(true);
     try {
       const storedMeals = await mealGetAll();
-      console.log('Refeições salvas:', storedMeals);
       const grouped = groupMealsByDate(storedMeals);
       setSections(grouped);
     } catch (error) {
-      console.log('Erro ao carregar refeições:', error);
     } finally {
       setLoading(false);
     }
